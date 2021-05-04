@@ -70,7 +70,7 @@
                 var historyAsJasonNotSortedBeautifulTable = JSON.stringify(response)
                 answer.innerHTML = historyAsJasonNotSortedBeautifulTable;
             })
-            .catch(err => alert("Midagi on gatki!"))
+            .catch(err => alert("No connection with server"))
     }
 
     deleteHistory.onclick = function () {
@@ -79,7 +79,7 @@
             .then(function (response) {
                 answer.innerHTML = '#HISTORY IS SUCCESSFULLY DELETED'
             })
-            .catch(err => alert("Midagi on gatki!"))
+            .catch(err => alert("No connection with server"))
     }
 </script>
 </html>

@@ -1,0 +1,48 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: "Arial Rounded MT Bold", sans-serif;
+}
+
+.input{
+    text-align: center;
+    margin: 100px 0;
+}
+
+input[type="text"]{
+    height: 50px;
+    width: 600px;
+    background: grey;
+    font-family: "Arial",sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    border: none;
+    border-radius: 200px;
+    padding: 10px 10px;
+}
+
+input[type="submit"]{
+    height: 50px;
+    width: 100px;
+    background: grey;
+    font-family: "Arial Hebrew",sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    border: none;
+    border-radius: 200px;
+}
+
+.display{
+    text-align: center;
+}
+
+
+
+
+
+
+

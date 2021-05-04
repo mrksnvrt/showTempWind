@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>OpenApi</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div class="input">
+    <h1>//LOCAL WEATHER STAT SQRTT</h1>
+    #to see the weather data please insert city name and press WTHR<br>
+    #to see the previous search history press HSTRY<br>
+    #to format your'e computer press DLT<br><br>
+    <input type="text" class="inputValue">
+    <input type="submit" value="WTHR" class="button">
+    <input type="submit" value="HSTRY" class="showHistory">
+    <input type="submit" value="DLT" class="deleteHistory">
+</div>
+<div class="display">
+    <p class="answer"></p>
+</div>
+</body>
+
+<script>
+    var button = document.querySelector('.button')
+    var inputValue = document.querySelector('.inputValue')
+    var answer = document.querySelector('.answer')
+    var showHistory = document.querySelector('.showHistory')
+    var deleteHistory = document.querySelector('.deleteHistory')
+    //GET WEATHER INFORMATION FROM OPENWEATHERMAP, SEND IT TO DATABASE AND SHOW IN FROTNEND
+    button.onclick = function () {
+        alert("Seni hästi, nupp töötab")
+        //OPENWEATHERMAP REQUEST
+        fetch('http://api.openweathermap.org/data/2.5/weather?q=' + inputValue.value + '&units=metric&appid=8491374df15ba7e5f033786a66ba0bc2')
+            .then(response => response.json())
+            .then(data => {
+                var tempValue = data ['main']['temp'];
+                var windSpeedValue = data['wind']['speed'];
+                var windDegValue = data['wind']['deg'];
+                answer.innerHTML = '#Hello there! What a beautiful weather in ' + inputValue.value + '. Temperature= ' + tempValue + 'C. Wind= ' + windSpeedValue + ' m/s and ' + windDegValue + '°';
+                //ADD WEATHER INFORATION TO DATABASE THROUGH BACKEND
+                var requestObject = {
+                    'cityName': inputValue.value,
+                    'windSpeed': windSpeedValue,
+                    'temperature': tempValue,
+                    'windDeg': windDegValue
+                }
+                var url = "http://localhost:8080/api/weather/tempWind";
+                var configuration = {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(requestObject)
+                }
+                fetch(url, configuration)
+            })
+            .catch(err => alert("Wrong city name!"))
+    }
+
+    showHistory.onclick = function () {
+        alert("Vabandan ette")
+        fetch('http://localhost:8080/api/weather/showHistory')
+            .then(response => response.json())
+            .then(function (response) {
+                var historyAsJasonNotSortedBeautifulTable = JSON.stringify(response)
+                answer.innerHTML = historyAsJasonNotSortedBeautifulTable;
+            })
+            .catch(err => alert("Midagi on gatki!"))
+    }
+
+    deleteHistory.onclick = function () {
+        alert("Viimane kaunis hetk otsinguajalooga")
+        fetch('http://localhost:8080/api/weather/delete')
+            .then(function (response) {
+                answer.innerHTML = '#HISTORY IS SUCCESSFULLY DELETED'
+            })
+            .catch(err => alert("Midagi on gatki!"))
+    }
+</script>
+</html>
